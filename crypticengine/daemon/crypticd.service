@@ -11,7 +11,8 @@ RestartSec=5
 
 # Security hardening
 ProtectSystem=strict
-ReadWritePaths=/run/crypticd.sock /etc/securez /var/lib/securez /mnt/securez-vault /tmp/securez-sessions
+ExecStartPre=+/bin/mkdir -p /run/crypticd /etc/securez /var/lib/securez /mnt/securez-vault /tmp/securez-sessions
+ReadWritePaths=-/run/crypticd.sock -/etc/securez -/var/lib/securez -/mnt/securez-vault -/tmp/securez-sessions
 ProtectHome=read-only
 PrivateTmp=false
 NoNewPrivileges=false
