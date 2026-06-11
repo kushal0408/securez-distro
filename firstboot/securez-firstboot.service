@@ -1,0 +1,19 @@
+[Unit]
+Description=SecureZ+ First Boot Setup Wizard
+After=multi-user.target
+Before=display-manager.service
+ConditionPathExists=!/etc/securez/.setup-complete
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/securez-firstboot
+StandardInput=tty
+StandardOutput=tty
+StandardError=tty
+TTYPath=/dev/tty1
+TTYVHangup=yes
+TTYReset=yes
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

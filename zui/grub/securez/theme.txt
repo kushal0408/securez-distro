@@ -1,0 +1,88 @@
+# SecureZ+ OS — GRUB2 Boot Theme
+# theme.txt — Custom GRUB boot screen
+
+# Desktop resolution
+desktop-image: "background.png"
+desktop-color: "#0a0e14"
+
+title-text: ""
+title-font: "Inter Regular 16"
+title-color: "#00ffd5"
+
+message-font: "Inter Regular 12"
+message-color: "#c5c8c6"
+message-bg-color: "#0a0e14"
+
+terminal-font: "Mono Regular 14"
+terminal-box: "terminal_box_*.png"
+
++ boot_menu {
+    left = 30%
+    top = 30%
+    width = 40%
+    height = 40%
+
+    item_font = "Inter Regular 14"
+    item_color = "#c5c8c6"
+    selected_item_font = "Inter Bold 14"
+    selected_item_color = "#0a0e14"
+
+    item_height = 32
+    item_padding = 8
+    item_spacing = 4
+
+    item_icon_space = 8
+
+    selected_item_pixmap_style = "select_*.png"
+
+    scrollbar = true
+    scrollbar_width = 6
+    scrollbar_thumb = "scrollbar_thumb_*.png"
+}
+
++ progress_bar {
+    id = "__timeout__"
+    left = 30%
+    top = 75%
+    width = 40%
+    height = 16
+
+    show_text = true
+    font = "Inter Regular 10"
+    text_color = "#c5c8c6"
+
+    fg_color = "#00ffd5"
+    bg_color = "#141a24"
+    border_color = "#1e2838"
+}
+
++ label {
+    left = 30%
+    top = 82%
+    width = 40%
+    align = "center"
+    id = "__timeout__"
+    text = "SecureZ+ OS — Boot in %d seconds"
+    font = "Inter Regular 11"
+    color = "#555555"
+}
+
++ label {
+    left = 30%
+    top = 22%
+    width = 40%
+    align = "center"
+    text = "🛡️ SecureZ+ OS"
+    font = "Inter Bold 24"
+    color = "#00ffd5"
+}
+
++ label {
+    left = 30%
+    top = 27%
+    width = 40%
+    align = "center"
+    text = "Security • Privacy • Control"
+    font = "Inter Regular 12"
+    color = "#555555"
+}

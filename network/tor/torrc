@@ -1,0 +1,28 @@
+# SecureZ+ OS — Tor Configuration
+# /etc/tor/torrc
+#
+# Transparent proxy mode: routes ALL system traffic through Tor.
+# Enabled only when user opts in (not default).
+
+## Transparent proxy settings
+TransPort 9040
+DNSPort 5353
+
+## SOCKS proxy for applications that support it
+SocksPort 9050
+
+## Logging (minimal — we don't log traffic)
+Log notice syslog
+
+## Security hardening
+Sandbox 1
+SafeLogging 1
+
+## Country/exit node preferences (uncomment to customize)
+# ExitNodes {us},{gb},{de},{nl},{ch}
+# StrictNodes 1
+
+## Bridge support (for censored networks)
+# UseBridges 1
+# Bridge obfs4 <bridge-line>
+# ClientTransportPlugin obfs4 exec /usr/bin/obfs4proxy

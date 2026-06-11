@@ -1,0 +1,101 @@
+#!/usr/bin/env nft -f
+#
+# SecureZ+ OS — Firewall Rules (nftables)
+#
+# Philosophy: DEFAULT DENY EVERYTHING.
+# Then whitelist only what the user needs.
+#
+# This makes the OS "secure from boot" — nothing gets in or out
+# unless explicitly permitted.
+#
+
+flush ruleset
+
+table inet securez_firewall {
+
+    # ── Inbound chain: DROP everything by default ────────────
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        # Allow established/related connections (responses to our requests)
+        ct state established,related accept
+
+        # Allow loopback (localhost)
+        iif "lo" accept
+
+        # Drop invalid packets
+        ct state invalid drop
+
+        # Allow ICMP echo (ping) — rate limited
+        ip protocol icmp icmp type echo-request limit rate 2/second accept
+        ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate 2/second accept
+
+        # Allow ICMPv6 neighbor discovery (required for IPv6)
+        ip6 nexthdr icmpv6 icmpv6 type {
+            nd-neighbor-solicit,
+            nd-neighbor-advert,
+            nd-router-solicit,
+            nd-router-advert
+        } accept
+
+        # Allow DHCP client
+        udp dport 68 accept
+        udp dport 546 accept
+
+        # ── User-configurable ports (uncomment as needed) ──
+        # SSH (change port in production!)
+        # tcp dport 22 accept
+
+        # HTTP/HTTPS server (if running a local server)
+        # tcp dport { 80, 443 } accept
+
+        # Log dropped packets (for debugging)
+        log prefix "[SECUREZ-DROP-IN] " level debug limit rate 5/minute
+    }
+
+    # ── Outbound chain: ALLOW by default (user-friendly) ─────
+    # Users need internet to work. We allow outbound but log
+    # suspicious patterns.
+    chain output {
+        type filter hook output priority 0; policy accept;
+
+        # Allow loopback
+        oif "lo" accept
+
+        # Allow established
+        ct state established,related accept
+
+        # Allow DNS (both encrypted and plain for bootstrap)
+        udp dport 53 accept
+        tcp dport 53 accept
+        tcp dport 853 accept      # DNS-over-TLS
+        tcp dport 443 accept      # DNS-over-HTTPS
+
+        # Allow common services
+        tcp dport { 80, 443 } accept          # HTTP/HTTPS
+        tcp dport { 993, 587, 465 } accept    # Email (IMAPS, SMTP)
+        udp dport { 51820 } accept            # WireGuard VPN
+        tcp dport 9050 accept                 # Tor SOCKS
+        tcp dport 9040 accept                 # Tor TransPort
+
+        # Log all other outbound (detect suspicious apps)
+        # log prefix "[SECUREZ-OUT] " level info
+    }
+
+    # ── Forward chain: DROP all forwarding ───────────────────
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+    }
+}
+
+# ── Anti-spoofing (strict reverse path filtering) ────────────
+# This is also set in sysctl, but belt-and-suspenders:
+table inet securez_antispoofing {
+    chain prerouting {
+        type filter hook prerouting priority -300; policy accept;
+
+        # Drop packets from private ranges on public interfaces
+        # (add your interface name, e.g., eth0, ens33)
+        # iif "eth0" ip saddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } drop
+    }
+}

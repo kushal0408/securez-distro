@@ -1,0 +1,9 @@
+*.iso
+*.log
+/tmp/
+/config/
+/binary/
+/chroot/
+*.o
+*.so
+.DS_Store

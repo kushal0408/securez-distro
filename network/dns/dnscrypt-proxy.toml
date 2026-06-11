@@ -1,0 +1,60 @@
+# SecureZ+ OS — Encrypted DNS Configuration
+# dnscrypt-proxy.toml
+#
+# All DNS queries encrypted via DNS-over-HTTPS (DoH).
+# No plain-text DNS ever leaves the machine.
+
+listen_addresses = ['127.0.0.1:53', '[::1]:53']
+
+# Use fastest available encrypted resolvers
+server_names = ['cloudflare', 'google', 'quad9-dnscrypt-ip4-filter-pri']
+
+# DNS-over-HTTPS (preferred)
+doh_servers = true
+dnscrypt_servers = true
+
+# IPv4 and IPv6
+ipv4_servers = true
+ipv6_servers = false
+
+# Require DNSSEC validation
+require_dnssec = true
+
+# Require no-logging policy
+require_nolog = true
+
+# Require no-filtering (we filter ourselves)
+require_nofilter = true
+
+# Force TCP (more reliable through firewalls)
+force_tcp = false
+
+# Timeout and retry
+timeout = 5000
+keepalive = 30
+
+# Cache
+cache = true
+cache_size = 4096
+cache_min_ttl = 2400
+cache_max_ttl = 86400
+cache_neg_min_ttl = 60
+cache_neg_max_ttl = 600
+
+# Logging (minimal)
+log_level = 2
+log_file = '/var/log/dnscrypt-proxy.log'
+
+# Block lists (ads, malware, trackers)
+[blocked_names]
+  blocked_names_file = '/etc/dnscrypt-proxy/blocked-names.txt'
+
+[blocked_ips]
+  blocked_ips_file = '/etc/dnscrypt-proxy/blocked-ips.txt'
+
+# Sources for resolver lists
+[sources]
+  [sources.'public-resolvers']
+    urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md']
+    cache_file = '/var/cache/dnscrypt-proxy/public-resolvers.md'
+    minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'

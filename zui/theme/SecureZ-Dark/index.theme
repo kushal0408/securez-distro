@@ -1,0 +1,16 @@
+[Theme]
+Name=SecureZ-Dark
+Comment=SecureZ+ OS Dark Hacker Theme
+Encoding=UTF-8
+Type=X-GNOME-Metatheme
+
+[Desktop]
+Type=Application
+Name=SecureZ-Dark
+
+[X-GNOME-Metatheme]
+GtkTheme=SecureZ-Dark
+MetacityTheme=SecureZ-Dark
+IconTheme=Papirus-Dark
+CursorTheme=Adwaita
+ButtonLayout=appmenu:minimize,maximize,close

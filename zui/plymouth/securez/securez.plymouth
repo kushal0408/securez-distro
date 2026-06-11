@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=SecureZ
+Description=SecureZ+ OS Boot Splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/securez
+ScriptFile=/usr/share/plymouth/themes/securez/securez.script

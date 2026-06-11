@@ -1,0 +1,255 @@
+/* SecureZ+ Dark Theme — GTK3 CSS
+ *
+ * Inspired by: Kali Linux dark + hacker aesthetics
+ * Accent: Cyan #00ffd5
+ * Background: Near-black #0a0e14
+ * Surface: Dark gray #141a24
+ */
+
+/* ── Colors ──────────────────────────────────────────────────── */
+
+@define-color bg_color #0a0e14;
+@define-color fg_color #c5c8c6;
+@define-color base_color #141a24;
+@define-color text_color #c5c8c6;
+@define-color selected_bg_color #00ffd5;
+@define-color selected_fg_color #0a0e14;
+@define-color tooltip_bg_color #1a2030;
+@define-color tooltip_fg_color #c5c8c6;
+@define-color borders #1e2838;
+@define-color insensitive_bg_color #0d1118;
+@define-color insensitive_fg_color #555555;
+@define-color error_color #ff3333;
+@define-color warning_color #ffcc00;
+@define-color success_color #00ffd5;
+@define-color link_color #00bfff;
+@define-color accent_color #00ffd5;
+
+/* ── Global ──────────────────────────────────────────────────── */
+
+* {
+    -GtkWidget-link-color: @link_color;
+    -GtkWidget-visited-link-color: shade(@link_color, 0.8);
+    outline-color: alpha(@accent_color, 0.3);
+}
+
+/* ── Window ──────────────────────────────────────────────────── */
+
+window {
+    background-color: @bg_color;
+    color: @fg_color;
+}
+
+.titlebar,
+headerbar {
+    background: linear-gradient(to bottom, #141a24, #0d1118);
+    color: @fg_color;
+    border-bottom: 1px solid @borders;
+    padding: 4px 8px;
+    min-height: 36px;
+}
+
+.titlebar:backdrop,
+headerbar:backdrop {
+    background: #0d1118;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+
+button {
+    background: linear-gradient(to bottom, #1e2838, #141a24);
+    color: @fg_color;
+    border: 1px solid @borders;
+    border-radius: 4px;
+    padding: 6px 16px;
+    transition: all 200ms ease;
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #243040, #1e2838);
+    border-color: @accent_color;
+}
+
+button:active,
+button:checked {
+    background: @accent_color;
+    color: @selected_fg_color;
+}
+
+button.suggested-action {
+    background: @accent_color;
+    color: @selected_fg_color;
+    border-color: shade(@accent_color, 0.8);
+    font-weight: bold;
+}
+
+button.destructive-action {
+    background: @error_color;
+    color: white;
+    border-color: shade(@error_color, 0.8);
+}
+
+/* ── Entry / Text Input ──────────────────────────────────────── */
+
+entry {
+    background-color: #0d1118;
+    color: @fg_color;
+    border: 1px solid @borders;
+    border-radius: 4px;
+    padding: 6px 10px;
+    caret-color: @accent_color;
+}
+
+entry:focus {
+    border-color: @accent_color;
+    box-shadow: 0 0 0 1px alpha(@accent_color, 0.3);
+}
+
+/* ── Lists and Treeviews ─────────────────────────────────────── */
+
+treeview,
+list {
+    background-color: @base_color;
+    color: @fg_color;
+}
+
+treeview:selected,
+list row:selected {
+    background-color: @accent_color;
+    color: @selected_fg_color;
+}
+
+treeview:hover,
+list row:hover {
+    background-color: alpha(@accent_color, 0.1);
+}
+
+/* ── Menus ────────────────────────────────────────────────────── */
+
+menu,
+.menu,
+.context-menu {
+    background-color: #141a24;
+    border: 1px solid @borders;
+    border-radius: 6px;
+    padding: 4px 0;
+}
+
+menu menuitem {
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin: 1px 4px;
+}
+
+menu menuitem:hover {
+    background-color: @accent_color;
+    color: @selected_fg_color;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+
+scrollbar slider {
+    background-color: alpha(@fg_color, 0.15);
+    border-radius: 100px;
+    min-width: 6px;
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background-color: alpha(@accent_color, 0.4);
+}
+
+scrollbar slider:active {
+    background-color: @accent_color;
+}
+
+/* ── Switches ────────────────────────────────────────────────── */
+
+switch {
+    background-color: #1e2838;
+    border-radius: 100px;
+    border: 1px solid @borders;
+}
+
+switch:checked {
+    background-color: @accent_color;
+}
+
+switch slider {
+    background-color: @fg_color;
+    border-radius: 100px;
+    min-width: 16px;
+    min-height: 16px;
+}
+
+/* ── Progress Bar ────────────────────────────────────────────── */
+
+progressbar trough {
+    background-color: #1e2838;
+    border-radius: 4px;
+}
+
+progressbar progress {
+    background-color: @accent_color;
+    border-radius: 4px;
+}
+
+/* ── Notebook / Tabs ─────────────────────────────────────────── */
+
+notebook {
+    background-color: @bg_color;
+}
+
+notebook tab {
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+    color: alpha(@fg_color, 0.6);
+}
+
+notebook tab:checked {
+    color: @accent_color;
+    border-bottom: 2px solid @accent_color;
+}
+
+/* ── Terminal ────────────────────────────────────────────────── */
+
+terminal-screen,
+vte-terminal {
+    background-color: #0a0e14;
+    color: #c5c8c6;
+    padding: 8px;
+}
+
+/* ── Tooltip ─────────────────────────────────────────────────── */
+
+tooltip {
+    background-color: @tooltip_bg_color;
+    color: @tooltip_fg_color;
+    border: 1px solid @borders;
+    border-radius: 4px;
+}
+
+/* ── InfoBar ─────────────────────────────────────────────────── */
+
+infobar {
+    background-color: alpha(@accent_color, 0.15);
+    color: @accent_color;
+    border: 1px solid alpha(@accent_color, 0.3);
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────── */
+
+.sidebar {
+    background-color: #0d1118;
+    border-right: 1px solid @borders;
+}
+
+.sidebar row {
+    padding: 8px 12px;
+}
+
+.sidebar row:selected {
+    background-color: alpha(@accent_color, 0.15);
+    color: @accent_color;
+}

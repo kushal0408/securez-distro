@@ -1,0 +1,56 @@
+# SecureZ+ OS — AppArmor Profile for SecureZ Shell
+# /etc/apparmor.d/usr.bin.szshell
+
+#include <tunables/global>
+
+/usr/bin/szshell {
+    #include <abstractions/base>
+    #include <abstractions/bash>
+    #include <abstractions/consoles>
+    #include <abstractions/nameservice>
+
+    # Shell binary itself
+    /usr/bin/szshell mr,
+
+    # Allow executing external commands
+    /usr/bin/* Px,
+    /usr/sbin/* Px,
+    /bin/* Px,
+    /sbin/* Px,
+    /usr/local/bin/* Px,
+
+    # Home directory access
+    owner @{HOME}/ r,
+    owner @{HOME}/** rwl,
+
+    # Shell configuration
+    owner @{HOME}/.szshellrc r,
+    owner @{HOME}/.szshell_history rw,
+
+    # CrypticEngine socket
+    /run/crypticd.sock rw,
+
+    # Temp files
+    owner /tmp/** rw,
+
+    # /proc and /sys for system info
+    @{PROC}/ r,
+    @{PROC}/@{pid}/ r,
+    @{PROC}/@{pid}/status r,
+    @{PROC}/meminfo r,
+    @{PROC}/uptime r,
+    @{PROC}/sys/kernel/yama/ptrace_scope r,
+    /sys/class/net/ r,
+    /sys/class/net/*/operstate r,
+
+    # Libraries
+    /usr/lib/** mr,
+    /lib/** mr,
+
+    # Deny sensitive operations
+    deny /etc/shadow r,
+    deny /etc/gshadow r,
+
+    # Deny raw network sockets (prevent packet sniffing from shell)
+    deny network raw,
+}

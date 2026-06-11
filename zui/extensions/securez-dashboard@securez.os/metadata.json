@@ -1,0 +1,8 @@
+{
+    "uuid": "securez-dashboard@securez.os",
+    "name": "SecureZ+ Security Dashboard",
+    "description": "Security status panel indicator for SecureZ+ OS. Shows firewall, Tor, VPN, encryption, and CrypticEngine status at a glance.",
+    "version": 1,
+    "shell-version": ["45", "46", "47"],
+    "url": "https://github.com/securezplus/securez-dashboard"
+}
